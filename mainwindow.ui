@@ -1,0 +1,440 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>969</width>
+    <height>610</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>CP2TWS </string>
+  </property>
+  <property name="windowIcon">
+   <iconset>
+    <normaloff>../test/CP2TWS.png</normaloff>../test/CP2TWS.png</iconset>
+  </property>
+  <property name="windowOpacity">
+   <double>1.000000000000000</double>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QWidget" name="horizontalLayoutWidget">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>50</y>
+      <width>311</width>
+      <height>441</height>
+     </rect>
+    </property>
+    <layout class="QHBoxLayout" name="horizontalLayout"/>
+   </widget>
+   <widget class="QWidget" name="horizontalLayoutWidget_2">
+    <property name="geometry">
+     <rect>
+      <x>400</x>
+      <y>50</y>
+      <width>161</width>
+      <height>441</height>
+     </rect>
+    </property>
+    <layout class="QHBoxLayout" name="horizontalLayout_2">
+     <item>
+      <layout class="QVBoxLayout" name="verticalLayout_2">
+       <item>
+        <widget class="QPushButton" name="sendButton">
+         <property name="statusTip">
+          <string>Zeit und Startnummer an Veranstaltung senden</string>
+         </property>
+         <property name="text">
+          <string>senden</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <spacer name="verticalSpacer">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
+        <widget class="QLabel" name="label">
+         <property name="text">
+          <string>WP auswählen</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QComboBox" name="WPcomboBox">
+         <property name="statusTip">
+          <string>WP-Auswahl</string>
+         </property>
+         <item>
+          <property name="text">
+           <string/>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>WP 1</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>WP 2</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>WP 3</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>WP 4</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>WP 5</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>WP 6</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>WP 7</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>WP 8</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>WP 9</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>WP 10</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>WP 11</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>WP12</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>WP 13</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>WP 14</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>WP 15</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>WP 16</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>WP 17</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>WP 18</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>WP 19</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>WP 20</string>
+          </property>
+         </item>
+        </widget>
+       </item>
+       <item>
+        <spacer name="verticalSpacer_2">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
+        <widget class="QLabel" name="label_2">
+         <property name="text">
+          <string>Art der  Zeit auswählen</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QComboBox" name="ZeitartcomboBox">
+         <property name="toolTip">
+          <string>Art der zu sendenden Zeit</string>
+         </property>
+         <property name="statusTip">
+          <string>Zeitart Auswahl</string>
+         </property>
+         <property name="currentText">
+          <string/>
+         </property>
+         <property name="currentIndex">
+          <number>0</number>
+         </property>
+         <item>
+          <property name="text">
+           <string/>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>START</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>ZIEL</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>FAHRZEIT</string>
+          </property>
+         </item>
+        </widget>
+       </item>
+      </layout>
+     </item>
+    </layout>
+   </widget>
+   <widget class="QWidget" name="horizontalLayoutWidget_3">
+    <property name="geometry">
+     <rect>
+      <x>590</x>
+      <y>50</y>
+      <width>321</width>
+      <height>441</height>
+     </rect>
+    </property>
+    <layout class="QHBoxLayout" name="horizontalLayout_3">
+     <item>
+      <widget class="QListWidget" name="SendlistWidget">
+       <property name="enabled">
+        <bool>true</bool>
+       </property>
+       <property name="statusTip">
+        <string>gesendete Zeiten</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+   <widget class="QPushButton" name="connectButton">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>10</y>
+      <width>93</width>
+      <height>28</height>
+     </rect>
+    </property>
+    <property name="statusTip">
+     <string>vor Verbindung COM einstellen</string>
+    </property>
+    <property name="text">
+     <string>Uhr verbinden</string>
+    </property>
+    <property name="checkable">
+     <bool>true</bool>
+    </property>
+    <property name="checked">
+     <bool>false</bool>
+    </property>
+   </widget>
+   <widget class="QLabel" name="Comlabel">
+    <property name="geometry">
+     <rect>
+      <x>130</x>
+      <y>10</y>
+      <width>71</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>Kein COM</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="portallabel">
+    <property name="geometry">
+     <rect>
+      <x>320</x>
+      <y>10</y>
+      <width>591</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="statusTip">
+     <string>Veranstaltungsadresse - grün wenn gültig / rot bei Adressfehler</string>
+    </property>
+    <property name="text">
+     <string>Veranstaltungsdaten auswählen</string>
+    </property>
+   </widget>
+   <widget class="QWidget" name="layoutWidget">
+    <property name="geometry">
+     <rect>
+      <x>18</x>
+      <y>50</y>
+      <width>341</width>
+      <height>439</height>
+     </rect>
+    </property>
+    <layout class="QVBoxLayout" name="verticalLayout">
+     <property name="spacing">
+      <number>4</number>
+     </property>
+     <item>
+      <widget class="QLineEdit" name="StartNrlineEdit">
+       <property name="statusTip">
+        <string>Startnummer eingeben</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QListWidget" name="UhrlistWidget">
+       <property name="statusTip">
+        <string>Zeitenliste Uhr, oberste Zeit wird gesendet</string>
+       </property>
+       <property name="tabKeyNavigation">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>969</width>
+     <height>26</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuDatei">
+    <property name="title">
+     <string>Datei</string>
+    </property>
+    <addaction name="actionCOMselect"/>
+    <addaction name="actionVeranstaltung"/>
+    <addaction name="actionexit"/>
+   </widget>
+   <widget class="QMenu" name="menuHilfe">
+    <property name="title">
+     <string>Hilfe</string>
+    </property>
+    <addaction name="actionUeber_CP2TWS"/>
+   </widget>
+   <addaction name="menuDatei"/>
+   <addaction name="menuHilfe"/>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+  <action name="actionCOMselect">
+   <property name="text">
+    <string>COM auswählen</string>
+   </property>
+   <property name="shortcut">
+    <string>Alt+C</string>
+   </property>
+  </action>
+  <action name="actionVeranstaltung">
+   <property name="text">
+    <string>Veranstaltungsdaten</string>
+   </property>
+   <property name="shortcut">
+    <string>Alt+V</string>
+   </property>
+  </action>
+  <action name="actionexit">
+   <property name="text">
+    <string>Beenden</string>
+   </property>
+  </action>
+  <action name="actionUeber_CP2TWS">
+   <property name="text">
+    <string>über CP2TWS</string>
+   </property>
+  </action>
+ </widget>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>connectButton</sender>
+   <signal>clicked(bool)</signal>
+   <receiver>connectButton</receiver>
+   <slot>toggle()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>79</x>
+     <y>44</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>79</x>
+     <y>44</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>
