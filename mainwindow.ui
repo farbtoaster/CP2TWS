@@ -379,6 +379,8 @@
     </property>
     <addaction name="actionCOMselect"/>
     <addaction name="actionVeranstaltung"/>
+    <addaction name="actionKonfiguration_laden"/>
+    <addaction name="actionKonfiguration_speichern"/>
     <addaction name="actionexit"/>
    </widget>
    <widget class="QMenu" name="menuHilfe">
@@ -415,6 +417,16 @@
   <action name="actionUeber_CP2TWS">
    <property name="text">
     <string>über CP2TWS</string>
+   </property>
+  </action>
+  <action name="actionKonfiguration_laden">
+   <property name="text">
+    <string>Konfiguration laden</string>
+   </property>
+  </action>
+  <action name="actionKonfiguration_speichern">
+   <property name="text">
+    <string>Konfiguration speichern</string>
    </property>
   </action>
  </widget>

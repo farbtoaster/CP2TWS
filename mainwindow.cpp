@@ -8,6 +8,8 @@
 #include <QJsonObject>
 #include <QJsonDocument>
 #include <QUrlQuery>
+#include <QFileDialog>
+#include <QSettings>
 
 
 MainWindow::MainWindow(QWidget *parent)
@@ -140,7 +142,7 @@ void MainWindow::on_sendButton_clicked()
             error = true;
             errortext = errortext + "keine Zeit vorhanden\n";
         }
-    QString WP = ui->WPcomboBox->currentText();
+    WP = ui->WPcomboBox->currentText();
     if (WP.isEmpty())    {
             error = true;
             errortext = errortext + "keine WP gewählt\n";
@@ -148,7 +150,7 @@ void MainWindow::on_sendButton_clicked()
     else    {
         WP.remove(0,3);
     }
-    QString Zeitart = ui->ZeitartcomboBox->currentText();   // WP und Zeitart holen
+    Zeitart = ui->ZeitartcomboBox->currentText();   // WP und Zeitart holen
     if (Zeitart.isEmpty())    {
             error = true;
             errortext = errortext + "keine Zeitart gewählt";
@@ -175,7 +177,9 @@ void MainWindow::on_sendButton_clicked()
         if (Startnummer == "0")   {
             //nach rechts kopieren als gelöscht
             delete ui->UhrlistWidget->takeItem(0);
-            ui->SendlistWidget->addItem("gelöscht | " + Zeitstring);
+            //ui->SendlistWidget->addItem("gelöscht | " + Zeitstring);
+            QString item = "gelöscht | " + Zeitstring;
+            ui->SendlistWidget->insertItem(0,item);
             ui->StartNrlineEdit->clear();
             ui->StartNrlineEdit->setFocus();
 
@@ -216,7 +220,9 @@ void MainWindow::sendData(QString Startnummer,QString nettozeit,QString WP,QStri
     m_networkManager->post(networkRequest,postData);
     Zeitart = Zeitart.at(0);
     QString Zeitstring = ui->UhrlistWidget->item(0)->text();
-    ui->SendlistWidget->addItem( Zeitart + " | " + Startnummer + " | " + Zeitstring);
+    //ui->SendlistWidget->addItem( Zeitart + " | " + Startnummer + " | " + Zeitstring);
+    QString item = Zeitart + " | " + Startnummer + " | " + Zeitstring;
+    ui->SendlistWidget->insertItem(0,item);
     //delete networkManager;
 
 }
@@ -346,5 +352,71 @@ void MainWindow::on_SendlistWidget_itemDoubleClicked(QListWidgetItem *item)
     ui->UhrlistWidget->repaint();
     delete ui->SendlistWidget->takeItem(ui->SendlistWidget->row(item));
     ui->UhrlistWidget->setCurrentRow(0);
+}
+
+
+void MainWindow::on_actionKonfiguration_laden_triggered()
+{
+    QString filter = "CP2TWS Konfiguration (*.konf)";
+    QString configFile = QFileDialog::getOpenFileName(this, "Select a file...", QDir::homePath(), filter);
+    if (!configFile.isEmpty()) {
+        loadSettings(configFile);
+
+    }
+}
+
+void MainWindow::loadSettings(QString file)
+{
+    // .ini format example
+    QSettings settings(file, QSettings::IniFormat);
+
+    QString portal = settings.value("OnlinePortal").toString();
+    if (!portal.isEmpty())  {
+        portalurl = portal;
+    }
+    QString name = settings.value("VerzeichnisName").toString();
+    if (!name.isEmpty())    {
+        folder = name;
+    }
+    QString api = settings.value("ApiKey").toString();
+    if (!api.isEmpty()) {
+        apikey = api;
+    }
+    QString filename = "/api.php";
+    url = portalurl;
+    url.append(folder);
+    url.append(filename);
+    ui->portallabel->setText(url);
+    checkurl();
+
+    QString wp = settings.value("WP").toString();
+    if (!wp.isEmpty())  {
+        WP = wp;
+        ui->WPcomboBox->setCurrentText("WP " + WP);
+    }
+    QString zeitart = settings.value("Zeitart").toString();
+    if (!zeitart.isEmpty()) {
+        Zeitart = zeitart;
+        ui->ZeitartcomboBox->setCurrentText(Zeitart);
+    }
+
+    // ...
+}
+
+void MainWindow::on_actionKonfiguration_speichern_triggered()
+{
+    QString filter = "CP2TWS Konfiguration (*.konf)";
+    QString configFile = QFileDialog::getSaveFileName(this,tr("Konfiguration speichern unter"), QDir::homePath(),tr("Konfiguration (*.konf);;All Files (*)"));
+    QSettings settings(configFile, QSettings::IniFormat);
+    settings.setValue("OnlinePortal",portalurl);
+    settings.setValue("VerzeichnisName",folder);
+    settings.setValue("ApiKey",apikey);
+    WP = ui->WPcomboBox->currentText();
+    QString wpNr = WP.remove(0,3);
+    settings.setValue("WP",wpNr);
+    Zeitart = ui->ZeitartcomboBox->currentText();
+    settings.setValue("Zeitart",Zeitart);
+
+
 }
 

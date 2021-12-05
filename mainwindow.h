@@ -38,19 +38,23 @@ private slots:
     void checkurl();
      void onGetAnswer(QNetworkReply* reply);
     void on_StartNrlineEdit_returnPressed();
-
+    void loadSettings(QString file);
 
 
     void on_UhrlistWidget_itemDoubleClicked(QListWidgetItem *listWidgetItem);
 
     void on_SendlistWidget_itemDoubleClicked(QListWidgetItem *item);
 
+    void on_actionKonfiguration_laden_triggered();
+
+    void on_actionKonfiguration_speichern_triggered();
+
 private:
     Ui::MainWindow *ui;
     QSerialPort *m_serial = nullptr;
     QNetworkAccessManager *m_networkManager = nullptr;
     QByteArray charBuffer;
-    QString url,apikey,folder,portalurl;
+    QString url,apikey,folder,portalurl,WP,Zeitart;
 
 
 };
