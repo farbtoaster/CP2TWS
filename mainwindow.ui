@@ -227,7 +227,12 @@
          </item>
          <item>
           <property name="text">
-           <string>START</string>
+           <string>Rundkurs START</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>A-B Start</string>
           </property>
          </item>
          <item>
@@ -240,6 +245,30 @@
            <string>FAHRZEIT</string>
           </property>
          </item>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="label_3">
+         <property name="text">
+          <string>A-B Start - Frühstart </string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="msg_checkBox">
+         <property name="enabled">
+          <bool>true</bool>
+         </property>
+         <property name="text">
+          <string>Meldung senden</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="tmpn_checkBox">
+         <property name="text">
+          <string>Zeitstrafe senden</string>
+         </property>
         </widget>
        </item>
       </layout>
@@ -301,7 +330,6 @@
     </property>
     <property name="font">
      <font>
-      <weight>75</weight>
       <bold>true</bold>
      </font>
     </property>
@@ -320,7 +348,6 @@
     </property>
     <property name="font">
      <font>
-      <weight>75</weight>
       <bold>true</bold>
      </font>
     </property>

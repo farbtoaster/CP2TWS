@@ -405,7 +405,7 @@ void MainWindow::loadSettings(QString file)
 
 void MainWindow::on_actionKonfiguration_speichern_triggered()
 {
-    QString filter = "CP2TWS Konfiguration (*.konf)";
+    //QString filter = "CP2TWS Konfiguration (*.konf)";
     QString configFile = QFileDialog::getSaveFileName(this,tr("Konfiguration speichern unter"), QDir::homePath(),tr("Konfiguration (*.konf);;All Files (*)"));
     QSettings settings(configFile, QSettings::IniFormat);
     settings.setValue("OnlinePortal",portalurl);
