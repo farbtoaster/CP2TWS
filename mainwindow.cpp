@@ -23,7 +23,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
     connect(m_serial, &QSerialPort::readyRead, this, &MainWindow::readData);
     connect(m_networkManager, SIGNAL(finished(QNetworkReply*)), SLOT(onPostAnswer(QNetworkReply*)));
-    connect(m_networkManager, SIGNAL(sslerror(QNetworkReply*)), SLOT(slotError(QNetworkReply*)));
+    //connect(m_networkManager, SIGNAL(sslerror(QNetworkReply*)), SLOT(slotError(QNetworkReply*)));
     QEventLoop loop;
 
 }
@@ -151,6 +151,7 @@ void MainWindow::on_sendButton_clicked()
         WP.remove(0,3);
     }
     Zeitart = ui->ZeitartcomboBox->currentText();   // WP und Zeitart holen
+
     if (Zeitart.isEmpty())    {
             error = true;
             errortext = errortext + "keine Zeitart gewählt";
@@ -163,17 +164,38 @@ void MainWindow::on_sendButton_clicked()
                 (errortext) );
         }
     else    {
+
         QString Zeitstring = ui->UhrlistWidget->item(0)->text();    //oberste zeit holen
         // nettozeit erzeugen
         QString Zeit = Zeitstring.mid(16,12); // ab zeichen 16, 12 Zeichen ausschneiden
-
-        int hours = Zeit.split(QLatin1Char(':'))[0].toInt();
-        int minutes = Zeit.split(QLatin1Char(':'))[1].toInt();
-        int seconds = Zeit.split(QLatin1Char(':'))[2].toInt();
+        QString first = Zeit.split(QLatin1Char('.'))[0];
         QString millis = Zeit.split(QLatin1Char('.'))[1];
+        int hours = first.split(QLatin1Char(':'))[0].toInt();
+        int minutes = first.split(QLatin1Char(':'))[1].toInt();
+        int seconds = first.split(QLatin1Char(':'))[2].toInt();
+        // Zeit manipulieren wenn A-B
+        if (Zeitart == "START A-B") {
+            //Jumpstart? Checkboxen auslesen -> actions auslösen (nach zeitversand oder gleich?)
+            if  (seconds >= 50) {
+                //jumpstart true
+                if (ui->msg_checkBox->isChecked()) sendMessage(Startnummer,WP);
+                if (ui->tmpn_checkBox->isChecked()) sendTimePenalty(Startnummer,WP);
+                minutes++;
+                if (minutes == 60)   {
+                    minutes = 00;
+                    hours++;
+                }
+                if (hours == 23) hours = 00;
+            }
+            seconds = 00;
+            millis = "0";
+        }
+        //Zeitart kürzen
+        Zeitart = Zeitart.split(' ')[0];
         QString nettozeit = QString::number((hours * 3600) + (minutes * 60) + seconds);
         nettozeit = nettozeit.append(".");
         nettozeit = nettozeit.append(millis);
+
         if (Startnummer == "0")   {
             //nach rechts kopieren als gelöscht
             delete ui->UhrlistWidget->takeItem(0);
@@ -186,14 +208,15 @@ void MainWindow::on_sendButton_clicked()
         }
         else    {
             // Startnummer != 0 daten senden
-            sendData(Startnummer,nettozeit,WP,Zeitart,Zeit);
+            sendData(Startnummer,nettozeit,WP,Zeitart);
+
         }
     }
 }
 
-void MainWindow::sendData(QString Startnummer,QString nettozeit,QString WP,QString Zeitart,QString Zeit)
+void MainWindow::sendData(QString Startnummer,QString nettozeit,QString WP,QString Zeitart)
 {
-    // url und apikey holen
+
 
 
     QUrl serviceUrl = QUrl(url);
@@ -218,10 +241,108 @@ void MainWindow::sendData(QString Startnummer,QString nettozeit,QString WP,QStri
     networkRequest.setHeader(QNetworkRequest::ContentTypeHeader,"application/x-www-form-urlencoded");
 
     m_networkManager->post(networkRequest,postData);
+
     Zeitart = Zeitart.at(0);
     QString Zeitstring = ui->UhrlistWidget->item(0)->text();
     //ui->SendlistWidget->addItem( Zeitart + " | " + Startnummer + " | " + Zeitstring);
     QString item = Zeitart + " | " + Startnummer + " | " + Zeitstring;
+    ui->SendlistWidget->insertItem(0,item);
+    delete ui->UhrlistWidget->takeItem(0);
+    ui->StartNrlineEdit->clear();
+    ui->StartNrlineEdit->setFocus();
+    //delete networkManager;
+
+}
+
+void MainWindow::sendMessage(QString Startnummer,QString WP)
+{
+
+// Versuch mit 2tem network_manager!
+    // url und apikey holen
+    QNetworkAccessManager *mgr = new QNetworkAccessManager(this);
+    QUrl serviceUrl = QUrl(url);
+    QNetworkRequest request(serviceUrl);
+    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
+
+
+    QByteArray postData;
+
+    QUrlQuery query;
+    query.addQueryItem("API_KEY",apikey);
+    query.addQueryItem("ACTION","LEITSTELLE_MELDUNG_SPEICHERN");
+    query.addQueryItem("MELDUNGSART_ID","1");
+    query.addQueryItem("MELDUNG","Fruehstart");
+    query.addQueryItem("WP_LAUF_NR",WP);
+    query.addQueryItem("STARTNUMMER",Startnummer);
+
+    postData = query.toString(QUrl::FullyEncoded).toUtf8();
+
+    //QNetworkAccessManager *networkManager = new QNetworkAccessManager(this);
+
+    //connect(m_networkManager, SIGNAL(finished(QNetworkReply*)), SLOT(onPostAnswer(QNetworkReply*)));
+    //connect(m_networkManager, SIGNAL(error(QNetworkReply*)), SLOT(slotError(QNetworkReply*)));
+
+    //QNetworkRequest networkRequest(serviceUrl);
+    //networkRequest.setHeader(QNetworkRequest::ContentTypeHeader,"application/x-www-form-urlencoded");
+
+
+    QNetworkReply *reply = mgr->post(request,postData);
+
+    QObject::connect(reply, &QNetworkReply::finished, [=](){
+        if(reply->error() == QNetworkReply::NoError){
+            QString contents = QString::fromUtf8(reply->readAll());
+            qDebug() << contents;
+
+        }
+        else{
+            QString err = reply->errorString();
+            qDebug() << err;
+
+        }
+        reply->deleteLater();
+    });
+
+    //Zeitart = Zeitart.at(0);
+    QString Zeitstring = ui->UhrlistWidget->item(0)->text();
+    //ui->SendlistWidget->addItem( Zeitart + " | " + Startnummer + " | " + Zeitstring);
+    QString item = "Msg | " + Startnummer + " | " + Zeitstring;
+    ui->SendlistWidget->insertItem(0,item);
+    //delete networkManager;
+
+}
+
+void MainWindow::sendTimePenalty(QString Startnummer,QString WP)
+{
+    // angeblich request OK, aber kein eintrag im onlinesystem!
+
+
+    QUrl serviceUrl = QUrl(url);
+    QByteArray postData;
+
+    QUrlQuery query;
+    query.addQueryItem("API_KEY",apikey);
+    query.addQueryItem("ACTION","STRAFZEIT_SPEICHERN");
+    query.addQueryItem("WP_LAUF_NR",WP);
+    query.addQueryItem("ZEIT","10.0");
+    query.addQueryItem("GRUND","Fruehstart");
+    query.addQueryItem("STARTNUMMER",Startnummer);
+    query.addQueryItem("TRANSPONDERNR","");
+
+    postData = query.toString(QUrl::FullyEncoded).toUtf8();
+
+    //QNetworkAccessManager *networkManager = new QNetworkAccessManager(this);
+
+    //connect(m_networkManager, SIGNAL(finished(QNetworkReply*)), SLOT(onPostAnswer(QNetworkReply*)));
+    //connect(m_networkManager, SIGNAL(error(QNetworkReply*)), SLOT(slotError(QNetworkReply*)));
+
+    QNetworkRequest networkRequest(serviceUrl);
+    networkRequest.setHeader(QNetworkRequest::ContentTypeHeader,"application/x-www-form-urlencoded");
+
+    QNetworkReply *reply = m_networkManager->post(networkRequest,postData);
+    reply->finished();
+    QString Zeitstring = ui->UhrlistWidget->item(0)->text();
+    //ui->SendlistWidget->addItem( Zeitart + " | " + Startnummer + " | " + Zeitstring);
+    QString item = "TmPn | " + Startnummer + " | " + Zeitstring;
     ui->SendlistWidget->insertItem(0,item);
     //delete networkManager;
 
@@ -248,10 +369,10 @@ void MainWindow::onPostAnswer(QNetworkReply* reply) //Aufruf nach request
         }
         else    // status 200 ohne return - request ok
         {
-            delete ui->UhrlistWidget->takeItem(0);
-            //delete item
+
             ui->StartNrlineEdit->clear();
             ui->StartNrlineEdit->setFocus();
+            ui->SendlistWidget->item(0)->setBackground(Qt::green);
         }
     }
     else    {   //status nicht 200

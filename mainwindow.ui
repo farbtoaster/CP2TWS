@@ -227,12 +227,12 @@
          </item>
          <item>
           <property name="text">
-           <string>Rundkurs START</string>
+           <string>START Rundkurs</string>
           </property>
          </item>
          <item>
           <property name="text">
-           <string>A-B Start</string>
+           <string>START A-B</string>
           </property>
          </item>
          <item>
@@ -259,6 +259,9 @@
          <property name="enabled">
           <bool>true</bool>
          </property>
+         <property name="toolTip">
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;bei Frühstart automatische Meldung an's onlinesystem, abrufbar unter Leitstelle-Meldungen&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         </property>
          <property name="text">
           <string>Meldung senden</string>
          </property>
@@ -266,6 +269,9 @@
        </item>
        <item>
         <widget class="QCheckBox" name="tmpn_checkBox">
+         <property name="toolTip">
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;bei Frühstart automatisch Zeitstrafe erzeugen. (Unbedingt vorher mit Sportkommisar/ Auswertung abklären)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         </property>
          <property name="text">
           <string>Zeitstrafe senden</string>
          </property>

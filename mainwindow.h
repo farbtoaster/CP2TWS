@@ -29,7 +29,9 @@ private slots:
     void on_actionCOMselect_triggered();
 
     void on_actionexit_triggered();
-    void sendData(QString Startnummer,QString nettozeit,QString WP,QString Zeitart,QString Zeit);
+    void sendData(QString Startnummer,QString nettozeit,QString WP,QString Zeitart);
+    void sendMessage(QString Startnummer,QString WP);
+    void sendTimePenalty(QString Startnummer,QString WP);
     void onPostAnswer(QNetworkReply* reply);
     void slotError(QNetworkReply::NetworkError);
     void on_sendButton_clicked();
