@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "ueberdialog.h"
+#include "helpdialog.h"
 #include "comdialog.h"
 #include "veranstaltungsdialog.h"
 #include "QtSerialPort/QSerialPortInfo"
@@ -23,6 +24,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
     connect(m_serial, &QSerialPort::readyRead, this, &MainWindow::readData);
     connect(m_networkManager, SIGNAL(finished(QNetworkReply*)), SLOT(onPostAnswer(QNetworkReply*)));
+
     //connect(m_networkManager, SIGNAL(sslerror(QNetworkReply*)), SLOT(slotError(QNetworkReply*)));
     QEventLoop loop;
 
@@ -330,21 +332,16 @@ void MainWindow::sendTimePenalty(QString Startnummer,QString WP)
 
     postData = query.toString(QUrl::FullyEncoded).toUtf8();
 
-    //QNetworkAccessManager *networkManager = new QNetworkAccessManager(this);
-
-    //connect(m_networkManager, SIGNAL(finished(QNetworkReply*)), SLOT(onPostAnswer(QNetworkReply*)));
-    //connect(m_networkManager, SIGNAL(error(QNetworkReply*)), SLOT(slotError(QNetworkReply*)));
-
     QNetworkRequest networkRequest(serviceUrl);
     networkRequest.setHeader(QNetworkRequest::ContentTypeHeader,"application/x-www-form-urlencoded");
 
     QNetworkReply *reply = m_networkManager->post(networkRequest,postData);
-    reply->finished();
+    if (reply->isFinished())    {
     QString Zeitstring = ui->UhrlistWidget->item(0)->text();
-    //ui->SendlistWidget->addItem( Zeitart + " | " + Startnummer + " | " + Zeitstring);
     QString item = "TmPn | " + Startnummer + " | " + Zeitstring;
     ui->SendlistWidget->insertItem(0,item);
-    //delete networkManager;
+    delete reply;
+    }//delete networkManager;
 
 }
 void MainWindow::slotError(QNetworkReply::NetworkError)
@@ -379,9 +376,11 @@ void MainWindow::onPostAnswer(QNetworkReply* reply) //Aufruf nach request
        QMessageBox::information(this,tr("Fehler"),tr("Status: %1 ").arg(statusCode) + content);
     }
 
-
+    reply->deleteLater();
 
 }
+
+
 
 void MainWindow::on_actionVeranstaltung_triggered()
 {
@@ -539,5 +538,12 @@ void MainWindow::on_actionKonfiguration_speichern_triggered()
     settings.setValue("Zeitart",Zeitart);
 
 
+}
+
+
+void MainWindow::on_actionHilfe_triggered()
+{
+    HelpDialog myDialog;
+    myDialog.exec();
 }
 

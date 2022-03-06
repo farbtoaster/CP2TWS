@@ -51,6 +51,8 @@ private slots:
 
     void on_actionKonfiguration_speichern_triggered();
 
+    void on_actionHilfe_triggered();
+
 private:
     Ui::MainWindow *ui;
     QSerialPort *m_serial = nullptr;

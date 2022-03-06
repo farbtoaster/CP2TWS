@@ -212,7 +212,7 @@
           <string>Art der zu sendenden Zeit</string>
          </property>
          <property name="statusTip">
-          <string>Zeitart Auswahl</string>
+          <string>Zeitart Auswahl / START Rundkurs Lichtschrankenzeit / START A-B Zeit gerundet auf volle Minute (ab sek. 50) </string>
          </property>
          <property name="currentText">
           <string/>
@@ -227,7 +227,7 @@
          </item>
          <item>
           <property name="text">
-           <string>START Rundkurs</string>
+           <string notr="true" extracomment="Rundkurs Modus, reele Lichtschrankenzeit wird gesendet.">START Rundkurs</string>
           </property>
          </item>
          <item>
@@ -245,6 +245,13 @@
            <string>FAHRZEIT</string>
           </property>
          </item>
+        </widget>
+       </item>
+       <item>
+        <widget class="Line" name="line">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
         </widget>
        </item>
        <item>
@@ -269,6 +276,9 @@
        </item>
        <item>
         <widget class="QCheckBox" name="tmpn_checkBox">
+         <property name="enabled">
+          <bool>true</bool>
+         </property>
          <property name="toolTip">
           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;bei Frühstart automatisch Zeitstrafe erzeugen. (Unbedingt vorher mit Sportkommisar/ Auswertung abklären)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
          </property>
@@ -421,6 +431,7 @@
      <string>Hilfe</string>
     </property>
     <addaction name="actionUeber_CP2TWS"/>
+    <addaction name="actionHilfe_2"/>
    </widget>
    <addaction name="menuDatei"/>
    <addaction name="menuHilfe"/>
@@ -460,6 +471,16 @@
   <action name="actionKonfiguration_speichern">
    <property name="text">
     <string>Konfiguration speichern</string>
+   </property>
+  </action>
+  <action name="actionHilfe">
+   <property name="text">
+    <string>Hilfe</string>
+   </property>
+  </action>
+  <action name="actionHilfe_2">
+   <property name="text">
+    <string>Hilfe</string>
    </property>
   </action>
  </widget>
