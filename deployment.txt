@@ -1,0 +1,10 @@
+
+externe libs hinzufügen
+	-libcrypto-1_1.dll
+	-libssl-1_1.dll
+
+ windeployqt CP2TWS.exe
+ 
+ copy whole \release to installer\packages\...\data
+ 
+ C:\Qt\Tools\QtInstallerFramework\4.2\bin\binarycreator --offline-only -c config/config.xml -p packages installer

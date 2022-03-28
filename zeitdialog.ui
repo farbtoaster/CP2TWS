@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>HelpDialog</class>
- <widget class="QDialog" name="HelpDialog">
+ <class>ZeitDialog</class>
+ <widget class="QDialog" name="ZeitDialog">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -29,14 +29,30 @@
     <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
    </property>
   </widget>
-  <widget class="QTextBrowser" name="textBrowser">
+  <widget class="QTimeEdit" name="timeEdit">
    <property name="geometry">
     <rect>
-     <x>70</x>
-     <y>20</y>
-     <width>256</width>
-     <height>192</height>
+     <x>90</x>
+     <y>150</y>
+     <width>201</width>
+     <height>26</height>
     </rect>
+   </property>
+   <property name="displayFormat">
+    <string>HH:mm:ss,z</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label">
+   <property name="geometry">
+    <rect>
+     <x>90</x>
+     <y>120</y>
+     <width>191</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Zeit neu anlegen</string>
    </property>
   </widget>
  </widget>
@@ -45,7 +61,7 @@
   <connection>
    <sender>buttonBox</sender>
    <signal>accepted()</signal>
-   <receiver>HelpDialog</receiver>
+   <receiver>ZeitDialog</receiver>
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -61,7 +77,7 @@
   <connection>
    <sender>buttonBox</sender>
    <signal>rejected()</signal>
-   <receiver>HelpDialog</receiver>
+   <receiver>ZeitDialog</receiver>
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">

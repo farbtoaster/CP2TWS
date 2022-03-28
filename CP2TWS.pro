@@ -13,24 +13,33 @@ RC_ICONS = CP2TWS_white.ico
 
 SOURCES += \
     comdialog.cpp \
+    helpdialog.cpp \
     main.cpp \
     mainwindow.cpp \
     ueberdialog.cpp \
-    veranstaltungsdialog.cpp
+    veranstaltungsdialog.cpp \
+    worker.cpp \
+    zeitdialog.cpp
 
 HEADERS += \
     comdialog.h \
+    helpdialog.h \
     mainwindow.h \
     ueberdialog.h \
-    veranstaltungsdialog.h
+    veranstaltungsdialog.h \
+    worker.h \
+    zeitdialog.h
 
 FORMS += \
     comdialog.ui \
+    helpdialog.ui \
     mainwindow.ui \
     ueberdialog.ui \
-    veranstaltungsdialog.ui
+    veranstaltungsdialog.ui \
+    zeitdialog.ui
 
 # Default rules for deployment.
+QMAKE_CXXFLAGS  += -s
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
