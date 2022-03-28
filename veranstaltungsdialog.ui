@@ -92,6 +92,11 @@
      <string>https://www.adac-sport.com/</string>
     </property>
    </item>
+   <item>
+    <property name="text">
+     <string>https://www.zeitnahme-holledau</string>
+    </property>
+   </item>
   </widget>
   <widget class="QLineEdit" name="verzeichnisslineEdit">
    <property name="geometry">

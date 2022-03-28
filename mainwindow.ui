@@ -269,6 +269,9 @@
          <property name="toolTip">
           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;bei Frühstart automatische Meldung an's onlinesystem, abrufbar unter Leitstelle-Meldungen&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
          </property>
+         <property name="statusTip">
+          <string>Meldung bei Frühstart senden</string>
+         </property>
          <property name="text">
           <string>Meldung senden</string>
          </property>
@@ -277,13 +280,30 @@
        <item>
         <widget class="QCheckBox" name="tmpn_checkBox">
          <property name="enabled">
-          <bool>true</bool>
+          <bool>false</bool>
          </property>
          <property name="toolTip">
           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;bei Frühstart automatisch Zeitstrafe erzeugen. (Unbedingt vorher mit Sportkommisar/ Auswertung abklären)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
          </property>
          <property name="text">
           <string>Zeitstrafe senden</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="Line" name="line_2">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="pushButton">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
+         <property name="text">
+          <string>Zeit eingeben</string>
          </property>
         </widget>
        </item>
@@ -406,6 +426,19 @@
      </item>
     </layout>
    </widget>
+   <widget class="QListWidget" name="statuslistWidget">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>501</y>
+      <width>891</width>
+      <height>181</height>
+     </rect>
+    </property>
+    <property name="statusTip">
+     <string>Übertragungsstatus</string>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
@@ -433,8 +466,14 @@
     <addaction name="actionUeber_CP2TWS"/>
     <addaction name="actionHilfe_2"/>
    </widget>
+   <widget class="QMenu" name="menuzeiteingabe">
+    <property name="title">
+     <string/>
+    </property>
+   </widget>
    <addaction name="menuDatei"/>
    <addaction name="menuHilfe"/>
+   <addaction name="menuzeiteingabe"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <action name="actionCOMselect">
@@ -471,11 +510,6 @@
   <action name="actionKonfiguration_speichern">
    <property name="text">
     <string>Konfiguration speichern</string>
-   </property>
-  </action>
-  <action name="actionHilfe">
-   <property name="text">
-    <string>Hilfe</string>
    </property>
   </action>
   <action name="actionHilfe_2">

@@ -17,21 +17,26 @@ SOURCES += \
     main.cpp \
     mainwindow.cpp \
     ueberdialog.cpp \
-    veranstaltungsdialog.cpp
+    veranstaltungsdialog.cpp \
+    worker.cpp \
+    zeitdialog.cpp
 
 HEADERS += \
     comdialog.h \
     helpdialog.h \
     mainwindow.h \
     ueberdialog.h \
-    veranstaltungsdialog.h
+    veranstaltungsdialog.h \
+    worker.h \
+    zeitdialog.h
 
 FORMS += \
     comdialog.ui \
     helpdialog.ui \
     mainwindow.ui \
     ueberdialog.ui \
-    veranstaltungsdialog.ui
+    veranstaltungsdialog.ui \
+    zeitdialog.ui
 
 # Default rules for deployment.
 QMAKE_CXXFLAGS  += -s
