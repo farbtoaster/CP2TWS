@@ -65,12 +65,22 @@ void MainWindow::readData()
 {
 
     const QByteArray data = m_serial->readAll();
-
+    //const QByteArray data = m_serial->readLine();
         charBuffer.append(data);
         if (charBuffer.contains("\r\n"))
         {
-            //qInfo(charBuffer);
+            //CP540
             charBuffer.chop(2);
+            charBuffer.remove(0,3);
+            ui->UhrlistWidget->addItem(charBuffer);
+            charBuffer.clear();
+            ui->UhrlistWidget->setCurrentRow(0);
+            ui->UhrlistWidget->item(0)->setBackground(Qt::lightGray);
+            ui->StartNrlineEdit->setFocus();
+        } else  if (charBuffer.contains("\r")) {
+            //CP520
+            charBuffer.chop(2);
+            charBuffer.remove(0,1);
             ui->UhrlistWidget->addItem(charBuffer);
             charBuffer.clear();
             ui->UhrlistWidget->setCurrentRow(0);
@@ -171,7 +181,10 @@ void MainWindow::on_sendButton_clicked()
 
         QString Zeitstring = ui->UhrlistWidget->item(0)->text();    //oberste zeit holen
         // nettozeit erzeugen
-        QString Zeit = Zeitstring.mid(16,12); // ab zeichen 16, 12 Zeichen ausschneiden
+        //erstes : finden, pos -2 beginn zeitstring
+        int pos  = Zeitstring.indexOf(':');
+        QString Zeit = Zeitstring.mid((pos - 2),12); // ab zeichen 16, 12 Zeichen ausschneiden
+        qInfo() << Zeit;
         QString first = Zeit.split(QLatin1Char('.'))[0];
         QString millis = Zeit.split(QLatin1Char('.'))[1];
         int hours = first.split(QLatin1Char(':'))[0].toInt();
