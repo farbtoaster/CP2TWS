@@ -16,6 +16,9 @@ public:
     ~ZeitDialog();
     QTime getTime();
 
+private slots:
+
+
 private:
     Ui::ZeitDialog *ui;
 };

@@ -30,6 +30,8 @@ private slots:
     void on_actionUeber_CP2TWS_triggered();
     void on_actionCOMselect_triggered();
     void on_actionexit_triggered();
+    void sendTime(QString Startnummer,QString nettozeit,QString WP,QString Zeitart);
+    void put_success(QNetworkReply *reply);
     void sendData(QString Startnummer,QString nettozeit,QString WP,QString Zeitart);
     void sendMessage(QString Startnummer,QString WP);
     void sendTimePenalty(QString Startnummer,QString WP);

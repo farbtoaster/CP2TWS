@@ -25,6 +25,8 @@ MainWindow::MainWindow(QWidget *parent)
     connect(m_serial, &QSerialPort::readyRead, this, &MainWindow::readData);
     connect(&worker,&Worker::checkFinished, this, &MainWindow::checkurl_success);
     connect(&worker,&Worker::isFinished, this, &MainWindow::post_success);
+    connect(&worker,&Worker::timeRequestFinished, this, &MainWindow::put_success);
+
 
     QEventLoop loop;
 
@@ -182,14 +184,18 @@ void MainWindow::on_sendButton_clicked()
         QString Zeitstring = ui->UhrlistWidget->item(0)->text();    //oberste zeit holen
         // nettozeit erzeugen
         //erstes : finden, pos -2 beginn zeitstring
+        qInfo() << Zeitstring;
         int pos  = Zeitstring.indexOf(':');
-        QString Zeit = Zeitstring.mid((pos - 2),12); // ab zeichen 16, 12 Zeichen ausschneiden
+        QString Zeit = Zeitstring.mid((pos - 2),10); // 2 zeichen vor dem ersten : ausschneiden
         qInfo() << Zeit;
         QString first = Zeit.split(QLatin1Char('.'))[0];
         QString millis = Zeit.split(QLatin1Char('.'))[1];
+        qInfo() << "split kommastellen";
+        // millis 1-stellig
         int hours = first.split(QLatin1Char(':'))[0].toInt();
         int minutes = first.split(QLatin1Char(':'))[1].toInt();
         int seconds = first.split(QLatin1Char(':'))[2].toInt();
+        qInfo() << "split einzelteile";
         // Zeit manipulieren wenn A-B
         if (Zeitart == "START A-B") {
             //Jumpstart? Checkboxen auslesen -> actions auslösen (nach zeitversand oder gleich?)
@@ -224,12 +230,67 @@ void MainWindow::on_sendButton_clicked()
         }
         else    {
             // Startnummer != 0 daten senden
+            sendTime(Startnummer,nettozeit,WP,Zeitart);
             sendData(Startnummer,nettozeit,WP,Zeitart);
 
         }
     }
 }
 
+void MainWindow::sendTime(QString Startnummer,QString nettozeit,QString WP,QString Zeitart )
+{
+    //Start oder Ziel? post or put
+    //username, password, url https://zeitnahme.holledau.bayern/api/store
+    if (Zeitart == "START")  {
+
+        QByteArray postData;
+        QUrlQuery query;
+         query.addQueryItem("veranstaltung",folder);
+        query.addQueryItem("apikey",apikey);
+
+        query.addQueryItem("wp",WP);
+        query.addQueryItem("startnummer",Startnummer);
+        query.addQueryItem("startzeit",nettozeit);
+        postData = query.toString(QUrl::FullyEncoded).toUtf8();
+        qInfo() << postData;
+        QString my_url = "https://zeitnahme.holledau.bayern/api/store";
+        worker.post(my_url,postData);
+    }
+    if (Zeitart == "ZIEL")  {
+
+        QByteArray putData;
+        QUrlQuery query;
+         query.addQueryItem("veranstaltung",folder);
+        query.addQueryItem("apikey",apikey);
+
+        query.addQueryItem("wp",WP);
+        query.addQueryItem("startnummer",Startnummer);
+        query.addQueryItem("zielzeit",nettozeit);
+        putData = query.toString(QUrl::FullyEncoded).toUtf8();
+        qInfo() << putData;
+        QString my_url = "https://zeitnahme.holledau.bayern/api/store";
+        worker.put(my_url,putData);
+    }
+}
+
+void MainWindow::put_success(QNetworkReply *reply)
+{
+    int statusCode = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
+    QString content = QString::fromUtf8(reply->readAll());
+    qInfo() <<  "put_success";
+    qInfo() <<  statusCode;
+    qInfo() <<  content;
+    if (statusCode == 200)  {
+        QJsonDocument json = QJsonDocument::fromJson(content.toUtf8());
+        QJsonObject obj = json.object(); // since your string is an JSON object
+        QString startnummer = obj.value("startnummer").toString();
+        QString zeit = obj.value("fahrtzeit").toString();
+        QString status = obj.value("status").toString();
+        QString returnstr = "Startnr.: "+startnummer+" Zeit: "+zeit+" "+status;
+          ui->returnListWidget->insertItem(0,returnstr);
+
+    } else  QMessageBox::information(this,tr("Fehler"),tr("Status: %1 ").arg(statusCode) + content);
+}
 void MainWindow::sendData(QString Startnummer,QString nettozeit,QString WP,QString Zeitart)
 {
     QByteArray postData;
@@ -243,11 +304,13 @@ void MainWindow::sendData(QString Startnummer,QString nettozeit,QString WP,QStri
     query.addQueryItem("STARTNUMMER",Startnummer);
     postData = query.toString(QUrl::FullyEncoded).toUtf8();
     qInfo() << postData;
+    if (!url.isEmpty()) {
     worker.post(url,postData);
     Zeitart = Zeitart.at(0);
     QString Zeitstring = ui->UhrlistWidget->item(0)->text();
     QString item = Zeitart + " | " + Startnummer + " | " + Zeitstring;
     ui->SendlistWidget->insertItem(0,item);
+    }
 
 }
 
@@ -491,11 +554,17 @@ void MainWindow::on_actionHilfe_triggered()
 void MainWindow::on_pushButton_clicked()
 {
     ZeitDialog myzeitDialog;
-    myzeitDialog.exec();
+
+    int dialogCode = myzeitDialog.exec();
+
+    if(dialogCode == QDialog::Accepted) {
     QTime test = myzeitDialog.getTime();
-    if (!test.isNull()) {   // Zeit = 00:00:00,0
-        QString newtime = "Zeiteingabe    "+test.toString();
-        ui->UhrlistWidget->insertItem(0,newtime);
+    const int msec = test.msec();
+    QString str;
+    str.setNum(msec);
+
+    QString newtime = "Zeiteingabe    "+test.toString()+"."+str;
+    ui->UhrlistWidget->insertItem(0,newtime);
     }
 
 }

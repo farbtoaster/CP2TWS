@@ -18,3 +18,5 @@ QTime ZeitDialog::getTime()
     return(ui->timeEdit->time());
 }
 
+
+

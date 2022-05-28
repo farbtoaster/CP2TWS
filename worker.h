@@ -17,13 +17,16 @@ public:
 signals:
     void isFinished(QNetworkReply* reply);
     void checkFinished(QNetworkReply* reply);
+    void timeRequestFinished(QNetworkReply* reply);
 
 public slots:
-    void get(QString location);
-    void post(QString location, QByteArray data);
-    void urlcheck(QString location, QByteArray data);
+    void    get(QString location);
+    void    put(QString location, QByteArray data);
+    void    post(QString location, QByteArray data);
+    void    urlcheck(QString location, QByteArray data);
     void    ReadyRead();
     void    urlcheckReady();
+    void    TimeRequestReady();
 private slots:
 
     void 	authenticationRequired(QNetworkReply *reply, QAuthenticator *authenticator);

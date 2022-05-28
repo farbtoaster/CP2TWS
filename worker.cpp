@@ -44,6 +44,27 @@ void Worker::urlcheckReady()
 
 }
 
+void Worker::put(QString location, QByteArray data)
+{
+    qInfo() << "put request";
+
+    QNetworkRequest request = QNetworkRequest(QUrl(location));
+    request.setHeader(QNetworkRequest::ContentTypeHeader,"application/x-www-form-urlencoded");
+
+    QNetworkReply* reply = manager.put(request,data);
+    connect(reply,&QNetworkReply::readyRead,this,&Worker::TimeRequestReady, Qt::QueuedConnection);
+
+}
+
+void Worker::TimeRequestReady()
+{
+    qInfo() << "ReadyRead";
+    QNetworkReply* reply = qobject_cast<QNetworkReply*>(sender());
+    emit timeRequestFinished(reply);
+    if (reply) qInfo() << reply->readAll();
+
+}
+
 void Worker::post(QString location, QByteArray data)
 {
     qInfo() << "post request";

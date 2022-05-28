@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>969</width>
+    <width>1235</width>
     <height>610</height>
    </rect>
   </property>
@@ -300,7 +300,7 @@
        <item>
         <widget class="QPushButton" name="pushButton">
          <property name="enabled">
-          <bool>false</bool>
+          <bool>true</bool>
          </property>
          <property name="text">
           <string>Zeit eingeben</string>
@@ -338,7 +338,7 @@
      <rect>
       <x>20</x>
       <y>10</y>
-      <width>93</width>
+      <width>111</width>
       <height>28</height>
      </rect>
     </property>
@@ -358,9 +358,9 @@
    <widget class="QLabel" name="Comlabel">
     <property name="geometry">
      <rect>
-      <x>130</x>
+      <x>160</x>
       <y>10</y>
-      <width>71</width>
+      <width>91</width>
       <height>21</height>
      </rect>
     </property>
@@ -435,8 +435,27 @@
       <height>181</height>
      </rect>
     </property>
+    <property name="toolTip">
+     <string>Statusmeldungen onlinesystem</string>
+    </property>
     <property name="statusTip">
      <string>Übertragungsstatus</string>
+    </property>
+    <property name="verticalScrollBarPolicy">
+     <enum>Qt::ScrollBarAsNeeded</enum>
+    </property>
+   </widget>
+   <widget class="QListWidget" name="returnListWidget">
+    <property name="geometry">
+     <rect>
+      <x>940</x>
+      <y>50</y>
+      <width>256</width>
+      <height>511</height>
+     </rect>
+    </property>
+    <property name="toolTip">
+     <string>Fahrtzeitliste</string>
     </property>
    </widget>
   </widget>
@@ -445,7 +464,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>969</width>
+     <width>1235</width>
      <height>26</height>
     </rect>
    </property>

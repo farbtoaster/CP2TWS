@@ -39,7 +39,7 @@
     </rect>
    </property>
    <property name="displayFormat">
-    <string>HH:mm:ss,z</string>
+    <string>hh:mm:ss.zzz</string>
    </property>
   </widget>
   <widget class="QLabel" name="label">
